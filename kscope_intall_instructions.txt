@@ -1,0 +1,187 @@
+在Ubuntu上安裝Kscope
+
+kscope是套非常好的"看程式碼"軟體
+為什麼叫看程式碼軟體呢？
+因為它不具備IDE(Integrated Development Environment)功能
+他沒有compile功能 所以只能用來看程式
+不過當你看的程式 是屬於函數呼叫來呼叫去的 
+kscope的功能一定可以讓你 輕鬆一點看程式碼
+而且她還有所謂的繪圖功能(不錯的地方)
+
+可惜的是ubuntu9.04,9.10沒這個套件
+所以要自行安裝
+但如果你是ubuntu 8.04 就可以用添加/刪除 找到
+新一點的版本10.04以上 必須使用舊版的kate套件
+
+不囉唆來裝裝看吧
+先到這裡http://sourceforge.net/projects/kscope/files/
+建議抓kscope-1.6.2.tar.gz
+新版的1.9.0以上好像刪減的一些功能(不大好用) 
+
+
+
+下載好了
+tar zxvf kscope-1.6.2.tar.gz 
+cd kscope-1.6.2/
+./configure
+make 
+make install
+
+sudo apt-get install cscope
+sudo apt-get install ctags
+sudo apt-get install graphviz
+
+/usr/bin/cscope
+/usr/bin/ctags-exuberant
+/usr/bin/dot
+
+
+指令不多就這些(如果你都有裝好需要的套件)
+要不然請看
+
+先輸入./configure 
+checking build system type... i686-pc-linux-gnu
+checking host system type... i686-pc-linux-gnu
+checking target system type... i686-pc-linux-gnu
+checking for a BSD-compatible install... /usr/bin/install -c
+checking for -p flag to install... yes
+checking whether build environment is sane... yes
+checking for a thread-safe mkdir -p... /bin/mkdir -p
+checking for gawk... no
+checking for mawk... mawk
+checking whether make sets $(MAKE)... yes
+checking for kde-config... not found
+configure: error: The important program kde-config was not found!
+Please check whether you installed KDE correctly.
+解決辦法：sudo apt-get install kdelibs4c2a   
+
+现在网上已经没有kdelibs4c2a  到debian上找到了个已备份
+./configure --without-arts
+make (ubuntu 12.04 安装过程中有很多问题c语言问题找出解决即可)
+sudo make install
+
+
+
+
+
+再輸入./configure 
+checking for X... configure: error: Can't find X includes. Please check your installation and add the correct paths!
+解決辦法：sudo apt-get install xorg-dev
+
+再一次輸入./configure
+checking for Qt... configure: error: Qt (>= Qt 3.3 and < 4.0)(headers and libraries) not found. Please check your installation!
+解決辦法：sudo apt-get install libqt3-mt-dev
+
+再輸入./configure
+checking for KDE... configure: error:
+in the prefix, you've chosen, are no KDE libraries installed. This will fail.
+So, check this please and use another prefix!
+解決辦法：sudo apt-get install kdelibs4-dev
+
+再輸入./configure
+configure: error: The important program mcopidl was not found!
+Please check whether you installed aRts correctly or use
+--without-arts to compile without aRts support (this will remove functionality).
+
+解決辦法：./configure 改成  輸入./configure --without-arts
+
+再輸入./configure --without-arts
+configure: error: Lex/Flex is required in order to build KScope
+解決辦法：sudo apt-get install flex
+
+再輸入./configure --without-arts
+configure: error: Yacc/Bison is required in order to build KScope
+解決辦法：sudo apt-get install bison
+
+再輸入./configure --without-arts
+checking if doc should be compiled... yes
+checking if po should be compiled... yes
+checking if src should be compiled... yes
+configure: creating ./config.status
+wrong input (flag != 4) at admin/conf.change.pl line 116, <> line 1380.
+config.status: creating Makefile
+config.status: creating doc/Makefile
+config.status: creating doc/en/Makefile
+config.status: creating po/Makefile
+config.status: creating src/Makefile
+config.status: creating config.h
+config.status: executing depfiles commands
+
+Good - your configure finished. Start make now
+
+總算搞定了 感動！！ (不不不還有呢)
+
+
+輸入make
+/usr/bin/ld: cannot find -lkateinterfaces
+collect2: ld returned 1 exit status
+make[3]: *** [kscope] Error 1
+make[3]: Leaving directory `/home/bohan/桌面/kscope-1.6.2/src'
+make[2]: *** [all] Error 2
+make[2]: Leaving directory `/home/bohan/桌面/kscope-1.6.2/src'
+make[1]: *** [all-recursive] Error 1
+make[1]: Leaving directory `/home/bohan/桌面/kscope-1.6.2'
+make: *** [all] Error 2
+
+又有問題 這下有點不悅了 怎麼問題真多阿
+解決辦法：進入src目錄(/kscope-1.6.2/src)，vim Makefile，找到出錯命令(482行附近)，去掉-lkateinterfaces, 换成 /usr/lib/libkatepartinterfaces.la
+如果没有libkatepartinterfaces.la 去安装目录去拷贝kde/interface/libkatepartinterfaces.la
+ 
+ 
+
+然後make
+make install  搞定呼！！(還蠻機車的)
+
+
+
+
+接下來才是聰明人的的方法(誰叫你要乖乖的看)
+https://launchpad.net/ubuntu
+
+
+這幾個才找得到(這麼好的軟體 9.10 以上沒有 可惜阿)
+我們選9.04進去(當然9.10的可以來這下載回去安裝 ok 的)
+
+
+  
+
+10.04 以上必須將系統 kate 刪除 安裝舊的 kate
+
+dapper (editors): advanced text editor for KDE
+4:3.5.2-0ubuntu27.2: amd64 i386 powerpc 
+dapper-updates (editors): advanced text editor for KDE
+4:3.5.2-0ubuntu27.4: amd64 i386 powerpc 
+hardy (editors): advanced text editor for KDE
+4:3.5.9-0ubuntu7: amd64 i386 
+hardy-updates (editors): advanced text editor for KDE
+4:3.5.10-0ubuntu1~hardy2: amd64 i386 
+hardy-backports (editors): advanced text editor for KDE
+4:3.5.10-0ubuntu1~hardy2: amd64 i386 
+karmic (editors): KDE 4 Advanced Text Editor
+4:4.3.2-0ubuntu1: amd64 i386 
+karmic-backports (editors): KDE 4 Advanced Text Editor
+4:4.3.5-0ubuntu1~karmic1: amd64 i386 
+lucid (editors): KDE 4 Advanced Text Editor
+4:4.4.2-0ubuntu3: amd64 i386 
+lucid-updates (editors): KDE 4 Advanced Text Editor
+4:4.4.5-0ubuntu1: amd64 i386 
+maverick (editors): KDE 4 Advanced Text Editor
+4:4.5.1-0ubuntu3: amd64 i386 
+natty (editors): K Advanced Text Editor
+4:4.6.2-0ubuntu1: amd64 i386
+
+將較新的kate移除 安裝4:3.5.10以下的版本
+可以用Synaptic套件管理刪除系統新版本的kate
+再安裝以下連結的kate 
+kate安裝好在裝kscope
+ar x kate_3.5.9.dfsg.1-6+lenny1_i386.deb
+tar xzf data.tar.gz
+sudo cp usr/lib/libkateinterfaces.so.0.0.0 /usr/local/lib
+sudo ldconfig
+sudo cp usr/lib/libkateutils.so.0.0.0 /usr/local/lib
+sudo ldconfig
+
+
+http://packages.debian.org/lenny/kate kate (4:3.5.9.dfsg.1-6+lenny1)
+http://packages.ubuntu.com/search?lang=zh-tw&keywords=kate Ubuntu發行版預設kate版本 
+注以上网址已失效 去debian重新找
