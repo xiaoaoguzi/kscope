@@ -126,7 +126,7 @@ make: *** [all] Error 2
 又有問題 這下有點不悅了 怎麼問題真多阿
 解決辦法：進入src目錄(/kscope-1.6.2/src)，vim Makefile，找到出錯命令(482行附近)，去掉-lkateinterfaces, 换成 /usr/lib/libkatepartinterfaces.la
 如果没有libkatepartinterfaces.la 去安装目录去拷贝kde/kate/interface/libkatepartinterfaces.la 
-kde/kate/interface/.lib
+kde/kate/interface/.lib/
  
  
 
